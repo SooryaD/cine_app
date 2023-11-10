@@ -1,0 +1,38 @@
+// ... (previous imports)
+
+class SignIn extends StatefulWidget {
+  const SignIn({Key? key}) : super(key: key);
+
+  @override
+  _SignInState createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  // ... (previous code)
+
+  void signIn() {
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    fetchUserDetails(email, password).then((userDetails) {
+      if (userDetails != null) {
+        print("User successfully logged in!");
+
+        storeUserDetails(userDetails);
+
+        final String userName = userDetails['Username'] ?? '';
+
+        Navigator.pushReplacement(
+          context, // Use pushReplacement to replace the current route
+          MaterialPageRoute(
+            builder: (context) => HomePage(
+              popUpMessage: "Welcome, $userName!",
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  // ... (rest of the code)
+}
